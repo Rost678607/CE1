@@ -138,6 +138,16 @@ def loop():
         levelX = 0
         best = 100
 
+def end():
+    screen.fill(":")
+    screen.drawLine(0, screen.height - 1, screen.width - 1, screen.height - 1, "=")
+    screen.drawPoint(int(screen.width / 2) - 3, screen.height - 1, "<")
+    screen.drawPoint(int(screen.width / 2) - 2, screen.height - 1, "[")
+    screen.printText(int(screen.width / 2) - 1, screen.height - 1, "Bye!")
+    screen.drawPoint(int(screen.width / 2) + 3, screen.height - 1, "]")
+    screen.drawPoint(int(screen.width / 2) + 4, screen.height - 1, ">")
+    screen.render(False)
+
 def gameOver():
     global levelX, best, levelLen, loseSplashs, gtick, playerSpeedY, playerX, playerY
     score = int(levelX / (levelLen + 30) * 100)
@@ -215,8 +225,7 @@ class Screen():
             self.frame = self.frameWithoutOwerlays
             if overlays:
                 self.addOverlays()
-            for y in range(self.height):
-                print("".join(self.frame[x][y] for x in range(self.width)))
+            print("\n".join("".join(self.frame[x][y] for x in range(self.width)) for y in range(self.height)))
 
     def getPoint(self, x, y):
         if (x < self.width) and (y < self.height):
@@ -475,15 +484,8 @@ class Runtime():
             debugInfo.tps = int(1 / max(debugInfo.tickDuration, self.tick))
             if debugInfo.tickDuration < self.tick:
                 sleep(self.tick - debugInfo.tickDuration)
-        screen.fill(":")
-        screen.drawLine(0, screen.height - 1, screen.width - 1, screen.height - 1, "=")
-        screen.drawPoint(int(screen.width / 2) - 3, screen.height - 1, "<")
-        screen.drawPoint(int(screen.width / 2) - 2, screen.height - 1, "[")
-        screen.printText(int(screen.width / 2) - 1, screen.height - 1, "Bye!")
-        screen.drawPoint(int(screen.width / 2) + 3, screen.height - 1, "]")
-        screen.drawPoint(int(screen.width / 2) + 4, screen.height - 1, ">")
-        screen.render(False)
-
+        end()
+    
     def main(self):
         self.runtime()
 
